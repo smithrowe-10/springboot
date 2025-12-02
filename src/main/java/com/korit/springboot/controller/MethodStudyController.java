@@ -12,21 +12,15 @@ public class MethodStudyController {
         return ResponseEntity.status(200).body(null);
     }
 
-
-
     @PostMapping
     public ResponseEntity<String> post() {
         return ResponseEntity.status(200).body(null);
     }
 
-
-
     @PutMapping
     public ResponseEntity<String> put() {
         return ResponseEntity.status(200).body(null);
     }
-
-
 
     @DeleteMapping
     public ResponseEntity<String> delete() {
