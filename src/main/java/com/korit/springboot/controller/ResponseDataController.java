@@ -2,10 +2,18 @@ package com.korit.springboot.controller;
 
 import com.korit.springboot.dto.RespJsonDto;
 import com.korit.springboot.dto.RespJsonDto2;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.core.io.Resource;
 
+
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -41,4 +49,29 @@ public class ResponseDataController {
         return ResponseEntity.ok(dto);
     }
 
+    @GetMapping("/resp/data5")
+    public ResponseEntity<Resource> download(@RequestParam String filename) {
+        Resource resource = new ClassPathResource("static/" + filename);
+        System.out.println(resource);
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"" + filename + "\"")
+                .body(resource);
+    }
+
+    @GetMapping("/resp/data6")
+    public ResponseEntity<Resource> downloadUTF8(@RequestParam String filename) {
+        Resource resource = new ClassPathResource("static/" + filename);
+        System.out.println(resource);
+
+        String contentDisposition = ContentDisposition.builder("attachment")
+                .filename(filename, StandardCharsets.UTF_8)
+                .build().toString();
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
+//               contentDisposition 이 "attachment; filename=\"" + filename + "\""
+                .body(resource);
+    }
 }
