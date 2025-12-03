@@ -73,7 +73,7 @@ public class RequestDataController2 {
 
     // DELETE 요청 데이터 받는 방법 1 - JSON 데이터만 보통 사용
     @DeleteMapping("/req/data1/{id}")
-        public ResponseEntity<?> reqDelete(@PathVariable int id) {
+        public ResponseEntity<?> reqDelete(@PathVariable int id, @RequestBody Map<String, Object> data) {
         System.out.println(id);
         return ResponseEntity.ok().build();
     }
