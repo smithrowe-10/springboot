@@ -18,6 +18,7 @@ public class RequestDataController2 {
     // POST 요청 데이터 받는 방법 1 - Map을 통해 JSON 데이터 받는 방법
     @PostMapping("/req/data1")
     public ResponseEntity<?> reqPost1(@RequestBody Map<String,Object> data) {
+                                    // JSON관련된 애들은 @RequestBody 붙여야댐 안붙이면좆대씨발!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         System.out.println(data);
         System.out.println(data.get("additionalProp2"));
         return ResponseEntity.ok().build();
@@ -39,19 +40,39 @@ public class RequestDataController2 {
     }
 
     // POST 요청 데이터 받는 방법 4 - 파일 데이터 받는 방법
-    // 파일 전송을 위해서는 요청 Content-Type이 MULTIPART_FORM_DATA 여야함
     @PostMapping(value = "/req/data4", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> reqPost4(ReqFormDataDto4 dto) {
         System.out.println(dto.getFile().getOriginalFilename());
         return ResponseEntity.ok().build();
     }
 
-    // POST 요청 데이터 받는 방법 3 - 파일 데이터 받는 방법
-    // 파일 전송을 위해서는 요청 Content-Type이 MULTIPART_FORM_DATA 여야함
+    // POST 요청 데이터 받는 방법 5 - 여러파일 데이터 받는 방법
     @PostMapping(value = "/req/data5", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> reqPost5(@RequestPart("file") List<MultipartFile> files) {
         files.forEach(file -> System.out.println(file.getOriginalFilename()));
         return ResponseEntity.ok().build();
     }
 
+
+
+    // PUT 요청 데이터 받는 방법 1 - JSON 데이터만 보통 사용
+    @PutMapping("/req/data1/{id}")
+    public ResponseEntity<?> reqPut(@PathVariable int id, @RequestBody ReqJsonDto2 dto) {
+        System.out.println(dto);
+        return ResponseEntity.ok().build();
+    }
+
+    // PATCH 요청 데이터 받는 방법 1 - JSON 데이터만 보통 사용
+    @PatchMapping("/req/data1/{id}")
+    public ResponseEntity<?> reqPatch(@PathVariable int id, @RequestBody ReqJsonDto2 dto) {
+        System.out.println(dto);
+        return ResponseEntity.ok().build();
+    }
+
+    // DELETE 요청 데이터 받는 방법 1 - JSON 데이터만 보통 사용
+    @DeleteMapping("/req/data1/{id}")
+        public ResponseEntity<?> reqDelete(@PathVariable int id) {
+        System.out.println(id);
+        return ResponseEntity.ok().build();
+    }
 }
