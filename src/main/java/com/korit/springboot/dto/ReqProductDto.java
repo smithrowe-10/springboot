@@ -10,3 +10,5 @@ public class ReqProductDto {
     private Integer productPrice;
 
 }
+
+// 만드는 순서 3 Dto

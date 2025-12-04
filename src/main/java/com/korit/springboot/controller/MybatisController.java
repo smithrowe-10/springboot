@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MybatisController {
 
     @Autowired
+    // Autowired 애너테이션은 각각의 필드마다 하나씩 걸어야됨 ProductMapper ProductMapper = new ProductMapper();같은 느낌;
     private StudyMapper studyMapper;
 
 //    @PostMapping("/mybatis/study")
@@ -32,9 +33,11 @@ public class MybatisController {
     private ProductMapper productMapper;
 
     @PostMapping("/mybatis/product")
-    public ResponseEntity<?> insert(@RequestBody ReqProductDto dto) {
-        productMapper.insert(dto.getProductName(), dto.getProductSize(), dto.getProductPrice());
+    public ResponseEntity<?> insertProduct(@RequestBody ReqProductDto dto) {
+        productMapper.insertProduct(dto.getProductName(), dto.getProductSize(), dto.getProductPrice());
         return ResponseEntity.ok().build();
     }
 
 }
+
+// 만드는 순서 3 Controller
