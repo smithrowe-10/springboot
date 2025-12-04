@@ -14,7 +14,7 @@ public class MybatisController {
 
     @PostMapping("/mybatis/study")
     public ResponseEntity<?> insert() {
-        studyMapper.insert("서민재", 19);
+        studyMapper.insert("배지훈", 18);
         return ResponseEntity.ok().build();
     }
 
