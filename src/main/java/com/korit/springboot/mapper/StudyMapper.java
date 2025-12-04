@@ -9,6 +9,9 @@ import java.util.List;
 public interface StudyMapper {
     int insert(@Param("name") String name,@Param("age") int age);
                 // study #{name}와 @Param("name")의 값이 맞아야됨
+
     List<String> findAllName();
+
+
 
 }

@@ -6,9 +6,12 @@ import com.korit.springboot.mapper.ProductMapper;
 import com.korit.springboot.mapper.StudyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class MybatisController {
@@ -29,6 +32,13 @@ public class MybatisController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/mybatis/studyGet")
+    public ResponseEntity<?> get() {
+        List<String> foundName = studyMapper.findAllName();
+        
+        return ResponseEntity.ok(foundName);
+    }
+
     @Autowired
     private ProductMapper productMapper;
 
@@ -40,4 +50,4 @@ public class MybatisController {
 
 }
 
-// 만드는 순서 3 Controller
+// 만드는 순서 4 Controller
