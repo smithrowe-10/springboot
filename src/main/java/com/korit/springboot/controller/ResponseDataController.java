@@ -45,9 +45,11 @@ public class ResponseDataController {
     @GetMapping("/resp/data4")
     public ResponseEntity<RespJsonDto> getDto() {
         RespJsonDto dto = new RespJsonDto();
+        RespJsonDto2 dto2 = new RespJsonDto2();
+        dto2.setAddress1("부산");
         dto.setName("서민재");
         dto.setEmail("smj0418@gmail.com");
-        dto.setRespJsonDto2(new RespJsonDto2());
+        dto.setRespJsonDto2(dto2);
         return ResponseEntity.ok(dto);
     }
 
