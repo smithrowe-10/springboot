@@ -4,9 +4,30 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.korit.springboot.mapper.UserMapper">
+    <!--Entity를 리턴해야 할때는 무조건 resultMap을 만든다-->
+    <resultMap id="userEntity" type="com.korit.springboot.entity.UserEntity">
+        <id property="userId" column="user_id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="name" column="name"/>
+        <result property="email" column="email"/>
+    </resultMap>
+
     <insert id="insert">
         insert into user_tb
         values (default, #{username}, #{password}, #{name}, #{email})
                         <!--UserEntity에 있는 변수명과 이름같으면 알아서 대입해줌-->
     </insert>
+    <select id="findUserByUsername" resultMap="userEntity">
+        select
+            user_id,
+            username,
+            password,
+            name,
+            email
+        from
+            user_tb
+        where
+            username = #{username}
+    </select>
 </mapper>
