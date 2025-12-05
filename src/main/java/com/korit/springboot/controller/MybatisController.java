@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class MybatisController {
@@ -46,6 +47,18 @@ public class MybatisController {
     public ResponseEntity<?> insertProduct(@RequestBody ReqProductDto dto) {
         productMapper.insertProduct(dto.getProductName(), dto.getProductSize(), dto.getProductPrice());
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/mybatis/productGet")
+    public ResponseEntity<?> getProduct() {
+        List<String> foundName = productMapper.findAllName();
+
+        return ResponseEntity.ok(foundName);
+    }
+
+    @GetMapping("/mybatis/productGetAll")
+    public ResponseEntity<List<Map<String,Object>>> getAll() {
+        return ResponseEntity.ok(productMapper.findAll());
     }
 
 }

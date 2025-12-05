@@ -8,6 +8,23 @@
         insert into product_tb
         values (default, #{product_name}, #{product_size}, #{product_price})
     </insert>
+    <select id="findAllName" resultType="string">
+        select
+            product_name
+        from
+            product_tb
+        <!--값이 여러개면 알아서 List로 묶음-->
+    </select>
+    <select id="findAll" resultType="java.util.Map">
+        select
+            product_id as productId,
+            product_name as productName,
+            product_size as productSize,
+            product_price as productPrice
+        from
+            product_tb
+    </select>
+
 </mapper>
 
 <!-- 만드는 순서 2 xml -->

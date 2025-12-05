@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.korit.springboot.mapper.UserMapper">
+    <insert id="insert">
+        insert into user_tb
+        values (default, #{username}, #{password}, #{name}, #{email})
+                        <!--UserEntity에 있는 변수명과 이름같으면 알아서 대입해줌-->
+    </insert>
+</mapper>

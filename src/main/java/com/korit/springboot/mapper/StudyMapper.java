@@ -12,6 +12,4 @@ public interface StudyMapper {
 
     List<String> findAllName();
 
-
-
 }
