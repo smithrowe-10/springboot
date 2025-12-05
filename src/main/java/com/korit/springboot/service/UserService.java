@@ -17,11 +17,17 @@ public class UserService {
 
     @Transactional(rollbackFor = Exception.class)
 //  중간에 오류가 생기면 지금까지의 과정을 커밋하지 마라   (rollbackFor = Exception.class) 어떤 오류가 터지든 롤백해라
-    public void createUser(CreateUserReqDto dto) {
-        userMapper.insert(dto.toEntity());
+    public int createUser(CreateUserReqDto dto) {
+        UserEntity userEntity = dto.toEntity();
+        System.out.println(userEntity);
+        userMapper.insert(userEntity);
+        System.out.println(userEntity);
+        return userEntity.getUserId();
+        // 이렇게 하면 insert 될때 알아서 id AutoIncrement 해준다고함 (xml 참고) id 리턴도 해줄수 있고 좋음 앞으로 insert는 이렇게만듬
+        // 원래는 DB에서만 id값이 올랐는데 여기서 id 값을 가져올수 있다는게 메리트임 UserController 참고
     }
 
-    public void duplicatedUsername(String username) throws MethodArgumentNotValidException, NoSuchMethodException {
+    public void duplicatedUsername(String username){
         UserEntity foundUser = userMapper.findUserByUsername(username);
 //        if (foundUser != null) {
 //            MethodParameter methodParameter = new MethodParameter(this.getClass().getMethod("duplicatedUsername", String.class), 2);

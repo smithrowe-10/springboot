@@ -13,7 +13,7 @@
         <result property="email" column="email"/>
     </resultMap>
 
-    <insert id="insert">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="userId">
         insert into user_tb
         values (default, #{username}, #{password}, #{name}, #{email})
                         <!--UserEntity에 있는 변수명과 이름같으면 알아서 대입해줌-->

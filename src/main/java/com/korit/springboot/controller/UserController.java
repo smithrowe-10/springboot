@@ -22,10 +22,10 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/api/users")
-    public ResponseEntity<?> create(@Valid @RequestBody CreateUserReqDto dto) throws MethodArgumentNotValidException, NoSuchMethodException {
+    public ResponseEntity<Map<String, Integer>> create(@Valid @RequestBody CreateUserReqDto dto){
         userService.duplicatedUsername(dto.getUsername());
-        userService.createUser(dto);
-        return ResponseEntity.ok().build();
+        int createdUserId = userService.createUser(dto);
+        return ResponseEntity.ok(Map.of("createdUserId", createdUserId));
     }
 
 }
