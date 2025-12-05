@@ -1,6 +1,7 @@
 package com.korit.springboot.controller;
 
 import com.korit.springboot.dto.ValidErrorRespDto;
+import com.korit.springboot.exception.DuplicatedException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -36,5 +37,10 @@ public class ExceptionController {
                 .toList();
 
         return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(DuplicatedException.class)
+    public ResponseEntity<ValidErrorRespDto> duplicatedException(DuplicatedException e) {
+        return ResponseEntity.badRequest().body(e.getValidErrorRespDto());
     }
 }
