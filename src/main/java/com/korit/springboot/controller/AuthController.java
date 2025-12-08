@@ -2,6 +2,7 @@ package com.korit.springboot.controller;
 
 import com.korit.springboot.dto.SignupReqDto;
 import com.korit.springboot.service.AuthService;
+import com.korit.springboot.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
+    private final UserService userService;
 
     @PostMapping("/api/auth/signup")
     public ResponseEntity<String> signup(@Valid @RequestBody SignupReqDto dto) {
-        authService.duplicatedUsername(dto.getUsername());
+        userService.duplicatedUsername(dto.getUsername());
         authService.createUser(dto);
         return ResponseEntity.ok("회원가입완료");
-
     }
 
 }
