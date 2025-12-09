@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
                 .getPrincipal();
         System.out.println(principalUser2.getUserId());
 
-            System.out.println(principalUser2.getUserEntity());
+        System.out.println(principalUser2.getUserEntity());
 
             return ResponseEntity.ok("응답");
         }
