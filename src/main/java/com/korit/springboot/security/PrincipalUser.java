@@ -3,10 +3,10 @@ package com.korit.springboot.security;
 import com.korit.springboot.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
 
 @RequiredArgsConstructor
 public class PrincipalUser implements UserDetails {
@@ -14,7 +14,10 @@ public class PrincipalUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return userEntity.getUserUserRoleEntities().stream()
+                .map(userRoleEntity ->
+                        new SimpleGrantedAuthority(userRoleEntity.getRoleEntity().getRoleName()))
+                .toList();
     }
 
     @Override

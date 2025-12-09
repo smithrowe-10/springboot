@@ -5,21 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserEntity {
+public class UserRoleEntity {
 
+    private int userRoleId;
     private int userId;
-    private String username;
-    private String password;
-    private String name;
-    private String email;
+    private int roleId;
 
-    private List<UserRoleEntity> userUserRoleEntities;
+    private RoleEntity roleEntity;
 
 }
-

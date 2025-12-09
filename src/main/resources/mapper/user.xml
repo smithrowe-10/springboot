@@ -1,55 +1,83 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.korit.springboot.mapper.UserMapper">
-    <!--Entity를 리턴해야 할때는 무조건 resultMap을 만든다-->
-    <resultMap id="userResultMap" type="com.korit.springboot.entity.UserEntity">
-        <id property="userId" column="user_id"/>
-        <result property="username" column="username"/>
-        <result property="password" column="password"/>
-        <result property="name" column="name"/>
-        <result property="email" column="email"/>
+    <resultMap id="userResultMap" type="UserEntity">
+        <id property="userId" column="user_id" />
+        <result property="username" column="username" />
+        <result property="password" column="password" />
+        <result property="name" column="name" />
+        <result property="email" column="email" />
+        <collection property="userUserRoleEntities" resultMap="userRoleResultMap" />
     </resultMap>
 
-<!--    <insert id="insert" useGeneratedKeys="true" keyProperty="userId">-->
-<!--        insert into user_tb-->
-<!--        values (default, #{username}, #{password}, #{name}, #{email})-->
-<!--                        &lt;!&ndash;UserEntity에 있는 변수명과 이름같으면 알아서 대입해줌&ndash;&gt;-->
-<!--    </insert>    -->
+    <resultMap id="userRoleResultMap" type="UserRoleEntity">
+        <id property="userRoleId" column="user_role_id" />
+        <result property="userId" column="urt_user_id" />
+        <result property="roleId" column="urt_role_id" />
+        <association property="roleEntity" resultMap="roleResultMap" />
+    </resultMap>
+
+    <resultMap id="roleResultMap" type="RoleEntity">
+        <id property="roleId" column="role_id" />
+        <result property="roleName" column="role_name" />
+    </resultMap>
 
     <insert id="insert" statementType="CALLABLE" parameterType="UserEntity">
         {call insert_user_ps(
-            #{username, mode=IN, jdbcType=VARCHAR},
-            #{password, mode=IN, jdbcType=VARCHAR},
-            #{name, mode=IN, jdbcType=VARCHAR},
-            #{email, mode=IN, jdbcType=VARCHAR},
-            #{userId, mode=OUT, jdbcType=INTEGER}
+        #{username, mode=IN, jdbcType=VARCHAR},
+        #{password, mode=IN, jdbcType=VARCHAR},
+        #{name, mode=IN, jdbcType=VARCHAR},
+        #{email, mode=IN, jdbcType=VARCHAR},
+        #{userId, mode=OUT, jdbcType=INTEGER}
         )}
     </insert>
+
     <select id="findUserByUsername" resultMap="userResultMap">
         select
-            user_id,
-            username,
-            password,
-            name,
-            email
+            ut.user_id,
+            ut.username,
+            ut.password,
+            ut.name,
+            ut.email,
+
+            urt.user_role_id,
+            urt.user_id as urt_user_id,
+            urt.role_id as urt_role_id,
+
+            rt.role_id,
+            rt.role_name
         from
-            user_tb
+            user_tb ut
+            left outer join user_role_tb urt on (urt.user_id = ut.user_id)
+            left outer join role_tb rt on (rt.role_id = urt.role_id)
         where
-            username = #{username}
+            ut.username = #{username}
     </select>
+
     <select id="findUserByUserId" resultMap="userResultMap">
         select
-            user_id,
-            username,
-            password,
-            name,
-            email
+            ut.user_id,
+            ut.username,
+            ut.password,
+            ut.name,
+            ut.email,
+
+            urt.user_role_id,
+            urt.user_id as urt_user_id,
+            urt.role_id as urt_role_id,
+
+            rt.role_id,
+            rt.role_name
         from
-            user_tb
+            user_tb ut
+            left outer join user_role_tb urt on (urt.user_id = ut.user_id)
+            left outer join role_tb rt on (rt.role_id = urt.role_id)
         where
-            user_id = #{userId}
+            ut.user_id = #{userId}
     </select>
+
+
 </mapper>
