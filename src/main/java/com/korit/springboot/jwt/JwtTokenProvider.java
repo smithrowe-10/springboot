@@ -1,8 +1,7 @@
 package com.korit.springboot.jwt;
 
 import com.korit.springboot.entity.UserEntity;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -36,4 +35,24 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    public boolean validateToken(String token) {
+        try {
+            JwtParser jwtParser = Jwts.parser()
+                    .setSigningKey(key)
+                    .build();
+            jwtParser.parseClaimsJws(token);
+            return true;
+        } catch (JwtException e) {
+            return false;
+        }
+    }
+
+    public int getUserId(String token) {
+        return (int) Jwts.parser()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getPayload()
+                .get("userId");
+    }
 }

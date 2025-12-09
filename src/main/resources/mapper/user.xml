@@ -5,7 +5,7 @@
 
 <mapper namespace="com.korit.springboot.mapper.UserMapper">
     <!--Entity를 리턴해야 할때는 무조건 resultMap을 만든다-->
-    <resultMap id="userEntity" type="com.korit.springboot.entity.UserEntity">
+    <resultMap id="userResultMap" type="com.korit.springboot.entity.UserEntity">
         <id property="userId" column="user_id"/>
         <result property="username" column="username"/>
         <result property="password" column="password"/>
@@ -13,12 +13,22 @@
         <result property="email" column="email"/>
     </resultMap>
 
-    <insert id="insert" useGeneratedKeys="true" keyProperty="userId">
-        insert into user_tb
-        values (default, #{username}, #{password}, #{name}, #{email})
-                        <!--UserEntity에 있는 변수명과 이름같으면 알아서 대입해줌-->
+<!--    <insert id="insert" useGeneratedKeys="true" keyProperty="userId">-->
+<!--        insert into user_tb-->
+<!--        values (default, #{username}, #{password}, #{name}, #{email})-->
+<!--                        &lt;!&ndash;UserEntity에 있는 변수명과 이름같으면 알아서 대입해줌&ndash;&gt;-->
+<!--    </insert>    -->
+
+    <insert id="insert" statementType="CALLABLE" parameterType="UserEntity">
+        {call insert_user_ps(
+            #{username, mode=IN, jdbcType=VARCHAR},
+            #{password, mode=IN, jdbcType=VARCHAR},
+            #{name, mode=IN, jdbcType=VARCHAR},
+            #{email, mode=IN, jdbcType=VARCHAR},
+            #{userId, mode=OUT, jdbcType=INTEGER}
+        )}
     </insert>
-    <select id="findUserByUsername" resultMap="userEntity">
+    <select id="findUserByUsername" resultMap="userResultMap">
         select
             user_id,
             username,
@@ -29,5 +39,17 @@
             user_tb
         where
             username = #{username}
+    </select>
+    <select id="findUserByUserId" resultMap="userResultMap">
+        select
+            user_id,
+            username,
+            password,
+            name,
+            email
+        from
+            user_tb
+        where
+            user_id = #{userId}
     </select>
 </mapper>
