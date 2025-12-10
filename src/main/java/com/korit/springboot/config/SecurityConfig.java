@@ -34,8 +34,12 @@ public class SecurityConfig {
         // csrf 비활성화
         http.csrf(csrf -> csrf.disable());
 
+
+        // 이거 뜻은 UsernamePasswordAuthenticationFilter 실행 전에 jwtAuthenticationFilter 부터 하겠다 이거임
+        // UsernamePasswordAuthenticationFilter는 Spring Security가 기본적으로 제공하는 로그인 처리 필터
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
+        // 여기 안에있는 넘들은 로그인 필요 X
         http.authorizeHttpRequests(auth -> {
             auth.requestMatchers("/api/auth/**").permitAll();
             auth.requestMatchers("/v3/api-docs/**").permitAll();
@@ -58,7 +62,9 @@ public class SecurityConfig {
         corsConfiguration.setAllowedHeaders(List.of("*"));
         corsConfiguration.setAllowCredentials(true);
 
+        // UrlBasedCorsConfigurationSource = URL 패턴마다 CORS 설정을 매핑해서 저장하는 저장소
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        // registerCorsConfiguration("/**", corsConfiguration) = 모든 요청 URL에 corsConfiguration 설정을 적용해라
         source.registerCorsConfiguration("/**", corsConfiguration);
 
         return source;
@@ -68,6 +74,5 @@ public class SecurityConfig {
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-
     }
 }

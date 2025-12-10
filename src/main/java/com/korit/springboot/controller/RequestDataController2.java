@@ -1,9 +1,7 @@
 package com.korit.springboot.controller;
 
-import com.korit.springboot.dto.ReqDataDto6;
 import com.korit.springboot.dto.ReqFormDataDto4;
 import com.korit.springboot.dto.ReqJsonDto2;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +33,7 @@ public class RequestDataController2 {
     // POST 요청 데이터 받는 방법 3 - 파일 데이터 받는 방법
     // 파일 전송을 위해서는 요청 Content-Type이 MULTIPART_FORM_DATA 여야함
     @PostMapping(value = "/req/data3", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> reqPost3(@RequestPart("file") MultipartFile file) {
+    public ResponseEntity<?> reqPost3(@RequestPart MultipartFile file) {
         System.out.println(file.getOriginalFilename());
         return ResponseEntity.ok().build();
     }
@@ -60,6 +58,7 @@ public class RequestDataController2 {
     // PUT 요청 데이터 받는 방법 1 - JSON 데이터만 보통 사용
     @PutMapping("/req/data1/{id}")
     public ResponseEntity<?> reqPut(@PathVariable int id, @RequestBody ReqJsonDto2 dto) {
+        System.out.println(id);
         System.out.println(dto);
         return ResponseEntity.ok().build();
     }
